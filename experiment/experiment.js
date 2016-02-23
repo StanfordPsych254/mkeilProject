@@ -116,7 +116,7 @@ var experiment = {
     $("#intro").text("Trial "+ trialnum);
     setTimeout(function(){
       experiment.practiceA();
-    }, 1000);
+    }, 2000);
   },
 
   practiceA: function() {
@@ -187,7 +187,7 @@ var experiment = {
       setTimeout(function(){
         $('#doc').html("");
         experiment.save();
-      }, 1000);
+      }, 15000);
     };
 
     // Display warning to choose file A first
@@ -252,7 +252,7 @@ var experiment = {
         $('#doc').hide();
         $('#warning').hide();
         experiment.saveB();
-      }, 1000);
+      }, 15000);
     };
 
     // Display warning to choose file B first
@@ -279,8 +279,8 @@ var experiment = {
         experiment.recallDigs = recallDigits;
         $('#space-warn3').hide();
         experiment.recallB();
-      }, 2000);
-  }, 1000);
+      }, 20000);
+  }, 2000);
   },
 
   save: function() {
@@ -316,8 +316,8 @@ var experiment = {
           else{
             experiment.recallA();
           }
-        }, 2000);
-  }, 1000);
+        }, 20000);
+  }, 2000);
   },
 
   recallA: function() {
@@ -346,8 +346,8 @@ var experiment = {
              };
           experiment.data.push(data);
           experiment.tetris();   
-        }, 2000);
-  }, 1000);
+        }, 20000);
+  }, 2000);
   },
 
   tetris: function() {
@@ -359,7 +359,7 @@ var experiment = {
         return
       }
       experiment.trialnum();
-    }, 1000);
+    }, 60000);
   },
 
   restudyA: function() {
@@ -387,7 +387,7 @@ var experiment = {
         $('body').css('background-color', 'white');
         $('#doc').hide();
         experiment.recallA();
-      }, 1000);
+      }, 15000);
     };
   },
 
