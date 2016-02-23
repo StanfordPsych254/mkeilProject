@@ -1,0 +1,141 @@
+---
+title: "Psych254_PS1"
+output: html_document
+---
+```{r}
+setwd("/Users/martykeil/Documents/Psych254/problem_sets")
+rm(list=ls())
+source("helper/useful.R")
+```
+
+##Part 1: Data Cleaning
+```{r load data}
+d <- read.csv("data/janiszewski_rep_exercise.csv")
+summary(d)
+str(d)
+
+d$Answer.dog_cost <- as.numeric(gsub(",","",d$Answer.dog_cost))
+d$Answer.plasma_cost <- as.numeric(gsub(",","",d$Answer.plasma_cost))
+d$Answer.sushi_cost <- as.numeric(d$Answer.sushi_cost)
+d$Input.price1 <- as.numeric(gsub(",","",d$Input.price1))
+d$Input.price2 <- as.numeric(gsub(",","",d$Input.price2))
+summary(d)
+
+d <- distinct(d,WorkerId)
+head(d)
+```
+
+
+##Part 2: Making the Data Tidy
+```{r load data part 2}
+d1 <- read.csv("data/janiszewski_rep_cleaned.csv")
+
+d1 <- select(d1, WorkerId,WorkTimeInSeconds, Input.condition,Input.price1,Input.price2,Input.price3,Answer.dog_cost,Answer.plasma_cost,Answer.sushi_cost)
+
+str(d1)
+
+d1.tidy <- d1 %>% rename(worker.id = WorkerId,work.time = WorkTimeInSeconds, condition = Input.condition , plasma.price = Input.price1 , dog.price =  Input.price2, sushi.price =  Input.price3, dog.cost = Answer.dog_cost, plasma.cost = Answer.plasma_cost,sushi.cost = Answer.sushi_cost)
+str(d1.tidy)
+```
+
+```{r gathering}
+d1.tidya <- d1.tidy %>% gather(measure.name, measure.value, plasma.price : sushi.cost)
+str(d1.tidya)
+```
+
+```{r back to wide}
+d1.tidyb <- d1.tidy %>% 
+  mutate(ind.unique.subsx= 1:n()) %>% 
+  gather(measure.name, measure.value, plasma.price : sushi.cost)
+  d1.wide <- spread(d1.tidya, measure.name, measure.value)
+str(d1.wide)
+```
+
+##Part 3: Manipulating Data Using Dplyr
+```{r histogram check}
+ggplot(d1.tidy, aes(plasma.cost)) + 
+  geom_histogram()
+ggplot(d1.tidy, aes(dog.cost)) + 
+  geom_histogram()
+ggplot(d1.tidy, aes(sushi.cost)) + 
+  geom_histogram()
+```
+People are mostly rounding their estimated costs in 500 increments for plasma and dog costs and .5 for the sushi cost. The majority of participants do not become more exact than this when creating estimates. There is more agreement among the dog cost that 2000 dollars is the correct value to pay. In all three plots nobody appears to go above the estimated cost anchor. Seem to like to go a bit below the anchor overall. By a factor of 500 for plasma and dog costs, and by a factor of 1 for sushi. 
+
+(Can also regraph with better binwidths.) 
+
+There are more plasma estimates close to the anchor(skewed left). This is likely because people do not know the price of plasma, compared to sushi or a dog, so give more creedence to the anchor value.
+
+Gathering Again
+```{r gathering 2}
+d1.tidyb <- d1.tidy %>% gather(item, cost, dog.cost : sushi.cost)
+d1.tidyb <- na.omit(d1.tidyb)
+```
+
+Summarize Grand Mean Bet
+```{r summarize}
+summarise(d1.tidyb, mean(cost))
+```
+
+Summarize by item and condition
+```{r summarize split up}
+summarise(group_by(d1.tidyb, item,condition), m = mean(cost))
+
+dsum <- d1.tidyb %>% group_by(item,condition) %>% summarise(mean(cost))
+dsum
+```
+
+
+Add Anchor Value In
+```{r add anchor}
+d.tidyanchor <- d %>% 
+  select(WorkerId, Input.condition, 
+         starts_with("Answer"), 
+         starts_with("Input")) %>%
+  rename(workerid = WorkerId,
+         condition = Input.condition,          
+         plasma_anchor = Input.price1,
+         dog_anchor = Input.price2,
+         sushi_anchor = Input.price3,
+         dog_cost = Answer.dog_cost,
+         plasma_cost = Answer.plasma_cost, 
+         sushi_cost = Answer.sushi_cost) %>%
+  gather(name, cost, 
+         dog_anchor, plasma_anchor, sushi_anchor, 
+         dog_cost, plasma_cost, sushi_cost) %>%
+  separate(name, c("item", "type"), "_") %>%
+  spread(type, cost) 
+d.tidyanchor <- na.omit(d.tidyanchor)
+str(d.tidyanchor)
+```
+
+Add Percent Change Column
+```{r percent change}
+pcts <- d.tidyanchor %>% 
+  mutate(pct_change = (abs(anchor-cost)/anchor) )  %>%
+  group_by(item,condition, add=FALSE) %>% 
+  summarise(mean(pct_change)) %>% rename(average = `mean(pct_change)`)
+pcts
+```
+
+Add Z-scores
+```{r add z scores}
+z.scores <- d.tidyanchor %>% group_by(item) %>% 
+  mutate(z = (scale(anchor-cost)[,1])) %>%
+  group_by(item,condition, add=FALSE) %>% 
+  summarise(mean(z)) %>% rename(z.average = `mean(z)`)
+z.scores
+```
+
+Plot Differences
+```{r plot differences}
+qplot(item, average, fill=condition, 
+      position="dodge",
+      stat="identity", geom="bar", 
+      data=pcts)  
+
+qplot(item, z.average, fill=condition, 
+      position="dodge",
+      stat="identity", geom="bar", 
+      data=z.scores) 
+```

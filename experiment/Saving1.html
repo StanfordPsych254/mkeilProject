@@ -1,0 +1,173 @@
+<html>
+<head>
+	<title>Even/odd experiment</title>
+	<script src="jquery-1.11.2.min.js"></script>
+	<script src="mmturkey-0.6.js"></script>
+	<link rel="stylesheet" href="style.css" />
+	<link rel="stylesheet" href="blockrain.css">
+</head>
+<body>
+
+<!-- The instructions slide. -->
+<div class="slide" id="instructions">
+  <div style="width: 500px; margin: 0 auto; text-align: center; background-color: #8C1516; padding: 20px 15px 10px 10px">
+    <img src="images/stanford.png" height="46" width="360" alt="Stanford University">
+  </div>
+		<p id='logo-text'>Memory Study</p>
+	<p class="block-text"> In this experiment you will be studying and recalling words in an online repository.
+	</p>
+	<button type="button" onclick="this.blur(); experiment.nextInstruction()">Start</button>
+
+	<!-- Legal blurb that we're required to show. -->
+	<p class="block-text" id="legal">Legal information: By answering the
+		following questions, you are participating in a study being performed by
+		cognitive scientists in the Stanford Department of Psychology. If you have
+		questions about this research, please contact Marty Keil at <a
+		href="mailto://mkeil@stanford.edu">mkeil@stanford.edu</a> or Michael Frank, 
+		at mcfrank@stanford.edu. You must be  at least 18 years old to
+		participate. Your participation in this research is voluntary. You may
+		decline to answer any or all of the following questions. You may decline
+		further participation, at any time, without adverse consequences. Your
+		anonymity is assured; the researchers who have requested your
+		participation will not receive any personal information about you.</p>
+</div>
+<!-- The "stage" slide - where the bulk of the experiment will be displayed. Again, note the use of <code>{{}}</code>. Should I make several slides?-->
+
+
+
+<div class="slide" id="instructions1">
+				<p class="block-text"> In this experiment you will studying files in an online repository. There are several PDF files in each repository. Each PDF file contains a list of commonly used nouns. Some lists have 8 words and others have 2 words.
+				</p>
+				 <img src="images/train2.png" class ="instruct_pic">
+				<button class="zen" type="button"
+				onclick="experiment.nextInstruction()">NEXT</button>
+		</div>
+
+<div class="slide" id="instructions2">
+			<div class="zen-slide-center">
+				<p class="block-text">
+				You will go through 8 trials of a study and test phase. In each trial you will study two files, File A and File B. You will need to remember both lists for a later test. First you will study all words in File A for 15 seconds. Then you will be directed to either Save or Not Save File A depending on the instructions given by the computer.
+				</p>
+				<button class="zen" type="button"
+				onclick="experiment.nextInstruction()">NEXT</button>
+			</div>
+		</div>
+
+<div class="slide" id="instructions3">
+			<div class="zen-slide-center">
+				<p class="block-text">
+					If you are instructed to Save, you will save the list into your designated folder. Because you are saving this file into your folder, you will have access to it later on. This will allow you the ability to re-study List A before the final test of List A.
+				</p>
+				<img src="images/save.png" class ="instruct_pic">
+				<button class="zen" type="button"
+				onclick="experiment.nextInstruction()">NEXT</button>
+			</div>
+		</div>
+
+<div class="slide" id="instructions4">
+			<div class="zen-slide-center">
+				<p class="block-text">
+					If you are instructed to Not Save, you will not save the list into your designated folder. Because you are not saving this file into your folder, you will not have access to it later on. This will deny you the ability to re-study List A before the final test of List A.
+				</p>
+				<img src="images/delete.png" class ="instruct_pic">
+				<button class="zen" type="button"
+				onclick="experiment.nextInstruction()">NEXT</button>
+			</div>
+		</div>
+
+<div class="slide" id="instructions5">
+			<div class="zen-slide-center">
+				<p class="block-text">
+				You will then study List B and receive the final tests for both lists; first List B and then List A. However, if you were directed to Save List A, you will have the chance to re-study List A before the final test of List A. Here is an overview of one entire trial. </p>
+				<img src="images/trainover.png" class ="instruct_pic" id="overview">
+				<button class="zen" type="button"
+				onclick="experiment.trialnum()">NEXT</button>
+			</div>
+		</div>
+
+<div class="slide" id="stage">
+	<div id = "saving">
+	</div>
+	<div id="table">
+			<div id="pdfA"></div>
+			<div id="pdfB"></div>
+	</div>
+	<div id = "doc">
+	</div>
+	<div id = "warning">
+	</div>
+</div>
+
+<div class="slide" id="save_screen">
+	<div id="save-box">
+		<div id = "save-instruct">
+		</div>
+		<button class="zen" id= "deletebutton" type="button"
+		onclick="experiment.practiceB(&quot;delete&quot;)">DELETE</button>
+		<button class="zen" id ="savebutton" type="button"
+		onclick="experiment.practiceB(&quot;save&quot;)">SAVE</button>
+		<div id = "doc">
+		</div>
+	</div>
+</div>
+
+<div class="slide" id="save_screenB">
+	<div id="save-box">
+		<div id = "save-instructB">
+		</div>
+		<button class="zen" id= "deletebutton" type="button"
+		onclick="experiment.distractor()">DELETE</button>
+		<button class="zen" id ="savebutton" type="button"
+		onclick="experiment.distractor()">SAVE</button>
+		<div id = "doc">
+		</div>
+	</div>
+</div>
+
+<!-- Distractor Slide -->
+<div class="slide" id="distractor">
+	<p id="directions"></p>
+		<div id ="textinput">
+			<textarea id="recall-digits" rows="7" cols="10"></textarea>
+			<div id="space-warn3" style="display:none; color:red">Press 'Enter' to separate numbers</div>
+		</div>
+</div>
+
+<!-- Recall Intro Slide -->
+<div class="slide" id="recallintro">
+	<p id="intro"></p>
+</div>
+
+
+
+<!-- Recall Slides -->
+<div class="slide" id="recallB">
+	<p id="directions">Enter the words you remember from <b>File B</b>. Pressing 'Enter' between words.</p>
+		<div id ="textinput">
+			<textarea id="recall-text" rows="7" cols="8"></textarea>
+			<div id="space-warn1" style="display:none; color:red">Press 'Enter' to separate words</div>
+		</div>
+</div>
+
+<div class="slide" id="recallA">
+		<p id="directions">Enter the words you remember from <b>File A</b>. Pressing 'Enter' between words.</p>
+		<div id ="textinput">
+			<textarea id="recall-text2" rows="7" cols="8"></textarea>
+			<div id="space-warn2" style="display:none; color:red">Press 'Enter' to separate words</div>
+		</div>
+</div>
+
+<div class ="slide" id="tetris">
+	<div class="game" style="width:250px; height:400px;"></div>
+</div>
+
+<!-- The finish slide. -->
+<div class="slide" id="finished">
+	You're finished - thanks for participating! Submitting to Mechanical Turk...
+</div>
+
+<script src="experiment.js"></script>
+<script src="blockrain.js"></script>
+
+</body>
+</html>
