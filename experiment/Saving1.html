@@ -36,7 +36,9 @@
 
 
 <div class="slide" id="instructions1">
-				<p class="block-text"> In this experiment you will studying files in an online repository. There are several PDF files in each repository. Each PDF file contains a list of commonly used nouns. Some lists have 8 words and others have 2 words.
+				<p class="block-text" id = "two"> In this experiment you will be studying files in an online repository. There are several PDF files in each repository. Each PDF file contains a list of commonly used nouns. Some lists have 8 words and others have 2 words.
+				</p>
+				<p class="block-text" id = "eight"> In this experiment you will be studying files in an online repository. There are several PDF files in each repository. Each PDF file contains a list of 8 commonly used nouns. 
 				</p>
 				 <img src="images/train2.png" class ="instruct_pic">
 				<button class="zen" type="button"
@@ -46,7 +48,7 @@
 <div class="slide" id="instructions2">
 			<div class="zen-slide-center">
 				<p class="block-text">
-				You will go through 8 trials of a study and test phase. In each trial you will study two files, File A and File B. You will need to remember both lists for a later test. First you will study all words in File A for 15 seconds. Then you will be directed to either Save or Not Save File A depending on the instructions given by the computer.
+				You will go through 8 trials of a study and test phase. In each trial you will study two files, File A and File B. You will need to remember both files for a later test. First you will study all words in File A for 15 seconds. Then you will be directed to either Save or Not Save File A depending on the instructions given by the computer.
 				</p>
 				<button class="zen" type="button"
 				onclick="experiment.nextInstruction()">NEXT</button>
@@ -56,7 +58,7 @@
 <div class="slide" id="instructions3">
 			<div class="zen-slide-center">
 				<p class="block-text">
-					If you are instructed to Save, you will save the file list by clicking the save button. Because you are saving this file, you will have access to it later on. This will allow you the ability to re-study File A before the final test of File A words.
+					If you are instructed to Save, you will save the file by clicking the save button. Because you are saving this file, you will have access to it later on. This will allow you the ability to re-study File A before the final test of File A words.
 				</p>
 				<img src="images/save.png" class ="instruct_pic">
 				<button class="zen" type="button"
@@ -67,7 +69,7 @@
 <div class="slide" id="instructions4">
 			<div class="zen-slide-center">
 				<p class="block-text">
-					If you are instructed to Delete, you will delete the file list by clicking the delete button. Because you are deleting this file, you will not have access to it later on. This will deny you the ability to re-study File A before the final test of File A words.
+					If you are instructed to Delete, you will delete the file by clicking the delete button. Because you are deleting this file, you will not have access to it later on. This will deny you the ability to re-study File A before the final test of File A words.
 				</p>
 				<img src="images/delete.png" class ="instruct_pic">
 				<button class="zen" type="button"
@@ -78,10 +80,10 @@
 <div class="slide" id="instructions5">
 			<div class="zen-slide-center">
 				<p class="block-text">
-				You will then study the words in File B and receive the final tests for both file word lists; first File B words and then File A words. However, if you were directed to Save File A, you will have the chance to re-study File A before the final test of words in File A. Here is an overview of one entire trial. </p>
+				You will then study the words in File B an delete this File. Next you will receive the final tests for both files; first File B words and then File A words. However, if you were directed to Save File A, you will have the chance to re-study File A before the final test of words in File A. After each trial you will play tetris for a short period of time. Here is an overview of one entire trial. Press begin to start the first trial. </p>
 				<img src="images/trainover.png" class ="instruct_pic" id="overview">
 				<button class="zen" type="button"
-				onclick="experiment.trialnum()">NEXT</button>
+				onclick="experiment.trialnum()">BEGIN</button>
 			</div>
 		</div>
 

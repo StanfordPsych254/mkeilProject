@@ -80,7 +80,8 @@ var PDF1A = ["bear","insect","dinner","crib","hobby","thumb","knot","blade"],
     recallwordsA = "",
     recallwordsB = "",
     start_number = "",
-    trialnum = 0;
+    trialnum = 0,
+    savechoice = "";
 
 // Show the instructions slide -- this is what we want subjects to see first.
 showSlide("instructions");
@@ -107,6 +108,14 @@ var experiment = {
   //Cycle through instructions
   nextInstruction: function(){
     instructionCount++;
+    if(instructionCount == 1){
+      if(condition == 2){
+          $('#eight').hide();
+      }
+      else{
+          $('#two').hide();
+      }
+    }
     showSlide("instructions" + instructionCount);
   },
 
@@ -200,6 +209,7 @@ var experiment = {
   },
 
   practiceB: function(word) {
+    experiment.savechoice = word;
     $('body').css('background-color', 'white');
     $('#doc').hide();
     $('#warning').hide();
@@ -337,6 +347,7 @@ var experiment = {
               time: totalTime, 
               word_condition: condition,
               save_condition: experiment.savetrial,
+              save_choice: experiment.savechoice,
               FileA: experiment.pdfA ,
               FileB: experiment.pdfB,
               start_number: experiment.start_number,
@@ -345,6 +356,7 @@ var experiment = {
               B_Recall: experiment.recallwordsB
              };
           experiment.data.push(data);
+          console.log(experiment.data);
           experiment.tetris();   
         }, 20000);
   }, 2000);
