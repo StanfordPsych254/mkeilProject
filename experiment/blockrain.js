@@ -26,10 +26,10 @@
       autoBlockSize: 24, // The max size of a block for autowidth mode
       difficulty: 'normal', // Difficulty (normal|nice|evil).
       speed: 20, // The speed of the game. The higher, the faster the pieces go.
-      asdwKeys: true, // Enable ASDW keys
+      asdwKeys: false, // Enable ASDW keys
 
       // Copy
-      playText: 'Let\'s play some Tetris',
+      playText: 'Let\'s play some Tetris. Use the arrows to move and rotate the pieces',
       playButtonText: 'Play',
       gameOverText: 'Game Over',
       restartButtonText: 'Play Again',
@@ -1446,8 +1446,6 @@
           case 39: /*right*/  moveRight(true); break;
           case 40: /*down*/   drop(true); break;
           case 38: /*up*/     game._board.cur.rotate('right'); break;
-          case 88: /*x*/      game._board.cur.rotate('right'); break;
-          case 90: /*z*/      game._board.cur.rotate('left'); break;
           default: caught = false;
         }
         if (caught) evt.preventDefault();
