@@ -119,22 +119,29 @@ var experiment = {
     showSlide("instructions" + instructionCount);
   },
 
-  trialnum: function() {
-    showSlide("recallintro");
-    trialnum++;
-    $("#intro").text("Trial "+ trialnum);
-    setTimeout(function(){
-      experiment.practiceA();
-    }, 2000);
+  message: function(message) {
+    if(message == "display_trial"){
+      showSlide("trialintro");
+      trialnum++;
+      $("#intro1").text("Trial "+ trialnum);
+    }
+    if(message == "display_distractor"){
+      $('body').css('background-color', 'white');
+      showSlide("distractorintro");
+      $( "#intro2" ).text("Backwards Subtraction Test");
+    }
+    if(message == "display_recallA"){
+      showSlide("recallintroA");
+      $( "#intro3" ).text("Test of Recall for File A words");
+    }
+    if(message == "display_recallB"){
+      showSlide("recallintroB");
+      $( "#intro4" ).text("Test of Recall for File B words");
+    }
   },
 
   practiceA: function() {
     experiment.startTime = (new Date()).getTime();
-    // if (experiment.trials == 0) {
-    //   experiment.end();
-    //   return
-    // }
-    
     //randomize if saving trial
     if(experiment.trials == 16){
           experiment.savetrial = "nosave";
@@ -183,7 +190,6 @@ var experiment = {
           PDFA = randomElement(PDFAs).toString();
         }
       }
-       //If I'm doing this how do I save which PDF was chosen, do I need to?
       experiment.pdfA = PDFA;
       PDFA = PDFA.replace(/,/g, '<br>');
       var div = document.getElementById("doc");
@@ -275,22 +281,17 @@ var experiment = {
   },
 
   distractor: function() {
-    $('body').css('background-color', 'white');
-    showSlide("recallintro");
-    $( "#intro" ).text("Backwards Subtraction Test");
-     setTimeout(function(){
       $("#recall-digits").val("");
       showSlide("distractor");
       starter = Math.floor(Math.random() * 800) + 200; 
       experiment.start_number = starter;
-      $("#directions").text("Subtract 3 from " + starter +  " as many times as possible. Pressing 'Enter' between numbers.");
+      $("#directions").text("Subtract 3 from " + starter +  " as many times as possible. Pressing 'Enter' or 'Return' between numbers.");
       setTimeout(function(){
         var recallDigits = $("#recall-digits").val();
         experiment.recallDigs = recallDigits;
         $('#space-warn3').hide();
-        experiment.recallB();
+        experiment.message("display_recallB");
       }, 20000);
-  }, 2000);
   },
 
   save: function() {
@@ -311,9 +312,6 @@ var experiment = {
   },
 
   recallB: function() {
-    showSlide("recallintro");
-    $( "#intro" ).text("Test of Recall for File B words");
-    setTimeout(function(){
       showSlide("recallB"); 
       $("#recall-text").val("");
         setTimeout(function(){
@@ -324,16 +322,12 @@ var experiment = {
             experiment.restudyA();
           }
           else{
-            experiment.recallA();
+            experiment.message("display_recallA");
           }
         }, 20000);
-  }, 2000);
   },
 
   recallA: function() {
-    showSlide("recallintro");
-    $( "#intro" ).text("Test of Recall for File A words");
-    setTimeout(function(){
       showSlide("recallA");
       $("#recall-text2").val(""); 
         setTimeout(function(){
@@ -356,21 +350,25 @@ var experiment = {
               B_Recall: experiment.recallwordsB
              };
           experiment.data.push(data);
-          console.log(experiment.data);
           experiment.tetris();   
         }, 20000);
-  }, 2000);
   },
 
   tetris: function() {
     showSlide("tetris");
-    $('.game').blockrain();
+    if(trialnum <2){
+      $('.game').blockrain();
+    }
+    else{ 
+      $('.game').blockrain('resume');
+    }
     setTimeout(function(){
       if (experiment.trials == 0) {
         experiment.end();
         return
       }
-      experiment.trialnum();
+      $('.game').blockrain('pause');
+      experiment.message("display_trial");
     }, 60000);
   },
 
@@ -398,7 +396,7 @@ var experiment = {
         $('#doc').html("");
         $('body').css('background-color', 'white');
         $('#doc').hide();
-        experiment.recallA();
+        experiment.message("display_recallA");
       }, 15000);
     };
   },

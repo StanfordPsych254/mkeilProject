@@ -83,7 +83,7 @@
 				You will then study the words in File B an delete this File. Next you will receive the final tests for both files; first File B words and then File A words. However, if you were directed to Save File A, you will have the chance to re-study File A before the final test of words in File A. After each trial you will play tetris for a short period of time. Here is an overview of one entire trial. Press begin to start the first trial. </p>
 				<img src="images/trainover.png" class ="instruct_pic" id="overview">
 				<button class="zen" type="button"
-				onclick="experiment.trialnum()">BEGIN</button>
+				onclick="experiment.message('display_trial')">BEGIN</button>
 			</div>
 		</div>
 
@@ -118,9 +118,9 @@
 		<div id = "save-instructB">
 		</div>
 		<button class="zen" id= "deletebutton" type="button"
-		onclick="experiment.distractor()">DELETE</button>
+		onclick="experiment.message('display_distractor')">DELETE</button>
 		<button class="zen" id ="savebutton" type="button"
-		onclick="experiment.distractor()">SAVE</button>
+		onclick="experiment.message('display_distractor')">SAVE</button>
 		<div id = "doc">
 		</div>
 	</div>
@@ -136,15 +136,36 @@
 </div>
 
 <!-- Recall Intro Slide -->
-<div class="slide" id="recallintro">
-	<p id="intro"></p>
+<div class="slide" id="trialintro">
+	<p class = "intro" id="intro1"></p>
+	<button class="zen" type="button" id = "trycenter"
+	onclick="experiment.practiceA()">START</button>
 </div>
+
+<div class="slide" id="distractorintro">
+	<p class = "intro" id="intro2"></p>
+	<button class="zen" type="button" id = "trycenter"
+	onclick="experiment.distractor()">START</button>
+</div>
+
+<div class="slide" id="recallintroA">
+	<p class = "intro" id="intro3"></p>
+	<button class="zen" type="button" id = "trycenter"
+	onclick="experiment.recallA()">START</button>
+</div>
+
+<div class="slide" id="recallintroB">
+	<p class = "intro" id="intro4"></p>
+	<button class="zen" type="button" id = "trycenter"
+	onclick="experiment.recallB()">START</button>
+</div>
+
 
 
 
 <!-- Recall Slides -->
 <div class="slide" id="recallB">
-	<p id="directions">Enter the words you remember from <b>File B</b>. Pressing 'Enter' between words.</p>
+	<p id="directions">Enter the words you remember from <b>File B</b>. Pressing 'Enter' or 'Return' between words.</p>
 		<div id ="textinput">
 			<textarea id="recall-text" rows="7" cols="8"></textarea>
 			<div id="space-warn1" style="display:none; color:red">Press 'Enter' to separate words</div>
@@ -152,7 +173,7 @@
 </div>
 
 <div class="slide" id="recallA">
-		<p id="directions">Enter the words you remember from <b>File A</b>. Pressing 'Enter' between words.</p>
+		<p id="directions">Enter the words you remember from <b>File A</b>. Pressing 'Enter' or 'Return' between words.</p>
 		<div id ="textinput">
 			<textarea id="recall-text2" rows="7" cols="8"></textarea>
 			<div id="space-warn2" style="display:none; color:red">Press 'Enter' to separate words</div>

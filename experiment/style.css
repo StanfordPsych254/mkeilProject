@@ -233,7 +233,7 @@ img.instruct_pic{
 }
 
 
-#intro{
+.intro{
 	font-size:30px;
     margin: auto auto;
     padding-top: 50px;
@@ -250,6 +250,13 @@ img.instruct_pic{
 .game{
 	margin-left: auto;
     margin-right: auto;
+}
+
+#trycenter{
+	margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-top: 50px;
 }
 
 
