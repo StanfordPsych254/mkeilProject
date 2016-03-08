@@ -359,8 +359,9 @@ var experiment = {
     if(trialnum <2){
       $('.game').blockrain();
     }
-    else{ 
+    else{
       $('.game').blockrain('resume');
+      // $('.game').blockrain('controls', true);
     }
     setTimeout(function(){
       if (experiment.trials == 0) {
@@ -368,6 +369,7 @@ var experiment = {
         return
       }
       $('.game').blockrain('pause');
+      // $('.game').blockrain('controls', false);
       experiment.message("display_trial");
     }, 60000);
   },
