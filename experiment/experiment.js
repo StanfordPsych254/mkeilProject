@@ -207,7 +207,7 @@ var experiment = {
       setTimeout(function(){
         $('#doc').html("");
         experiment.save();
-      }, 15000);
+      }, 1500);
     };
 
     // Display warning to choose file A first
@@ -273,7 +273,7 @@ var experiment = {
         $('#doc').hide();
         $('#warning').hide();
         experiment.saveB();
-      }, 15000);
+      }, 1500);
     };
 
     // Display warning to choose file B first
@@ -298,7 +298,7 @@ var experiment = {
         experiment.recallDigs = recallDigits;
         $('#space-warn3').hide();
         experiment.message("display_recallB");
-      }, 20000);
+      }, 2000);
   },
 
   save: function() {
@@ -333,7 +333,7 @@ var experiment = {
           else{
             experiment.message("display_recallA");
           }
-        }, 20000);
+        }, 2000);
   },
 
   recallA: function() {
@@ -362,7 +362,7 @@ var experiment = {
              };
           experiment.data.push(data);
           experiment.tetris();   
-        }, 20000);
+        }, 2000);
   },
 
   tetris: function() {
@@ -384,7 +384,7 @@ var experiment = {
       $('.game').blockrain('pause');
       // $('.game').blockrain('controls', false);
       experiment.message("display_trial");
-    }, 60000);
+    }, 6000);
   },
 
   restudyA: function() {
@@ -393,6 +393,7 @@ var experiment = {
     $('#table').show();
     $("#pdfA").text("File A");
     $("#pdfA").append('<img src="images/pdf.png" id = "pdfimage"/>');
+    $("#pdfA").show();
     $("#pdfB").text("File B");
     $("#pdfB").append('<img src="images/pdf.png" id = "pdfimage"/>');
     $( "#pdfB" ).hide();
@@ -412,7 +413,7 @@ var experiment = {
         $('body').css('background-color', 'white');
         $('#doc').hide();
         experiment.message("display_recallA");
-      }, 15000);
+      }, 1500);
     };
   },
 
@@ -422,6 +423,7 @@ var experiment = {
           gender: document.getElementById("gender").value,
           homelang: document.getElementById("homelang").value,
           race: document.getElementById("race").value,
+          comment: document.getElementById("comment").value,
              };
     experiment.data.push(data);
     experiment.end();
