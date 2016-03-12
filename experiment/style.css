@@ -259,5 +259,12 @@ img.instruct_pic{
     margin-top: 50px;
 }
 
+#seconds{
+	font: 32px blue;
+	background-color: white;
+	border: 3px black;
+	display: inline-block;
+}
+
 
 

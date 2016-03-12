@@ -14,7 +14,7 @@
     <img src="images/stanford.png" height="46" width="360" alt="Stanford University">
   </div>
 		<p id='logo-text'>Memory Study</p>
-	<p class="block-text"> In this experiment you will be studying and recalling words in an online repository.
+	<p class="block-text"> In this experiment you will be studying and recalling words in an online repository. This expriment will take approximately 20 minutes. 
 	</p>
 	<button type="button" onclick="this.blur(); experiment.nextInstruction()">Start</button>
 
@@ -31,7 +31,8 @@
 				</p>
 				<p class="block-text" id = "eight"> In this experiment you will be studying files in an online repository. There are several PDF files in each repository. Each PDF file contains a list of 8 commonly used nouns. 
 				</p>
-				 <img src="images/train2.png" class ="instruct_pic">
+				<img src="images/train2.png" class ="instruct_pic" id = "twopic">
+				<img src="images/train8.png" class ="instruct_pic" id = "eightpic">
 				<button class="zen" type="button"
 				onclick="experiment.nextInstruction()">NEXT</button>
 		</div>
@@ -39,7 +40,7 @@
 <div class="slide" id="instructions2">
 			<div class="zen-slide-center">
 				<p class="block-text">
-				You will go through 8 trials of a study and test phase. In each trial you will study two files, File A and File B. You will need to remember both files for a later test. First you will study all words in File A for 15 seconds. Then you will be directed to either Save or Not Save File A depending on the instructions given by the computer.
+				You will go through 8 trials of a study and test phase. In each trial you will study two files, File A and File B. You will need to remember both files for a later test. First you will study all words in File A for 15 seconds. Then you will be directed to either <b>Save</b> or <b>Not Save</b> File A depending on the instructions given by the computer.
 				</p>
 				<button class="zen" type="button"
 				onclick="experiment.nextInstruction()">NEXT</button>
@@ -49,7 +50,7 @@
 <div class="slide" id="instructions3">
 			<div class="zen-slide-center">
 				<p class="block-text">
-					If you are instructed to Save, you will save the file by clicking the save button. Because you are saving this file, you will have access to it later on. This will allow you the ability to re-study File A before the final test of File A words.
+					If you are instructed to <b>Save</b>, you will <b>save</b> the file by clicking the save button. Because you are saving this file, you <b>will</b> have access to it later on. This will allow you the ability to re-study File A before the final test of File A words.
 				</p>
 				<img src="images/save.png" class ="instruct_pic">
 				<button class="zen" type="button"
@@ -60,7 +61,7 @@
 <div class="slide" id="instructions4">
 			<div class="zen-slide-center">
 				<p class="block-text">
-					If you are instructed to Delete, you will delete the file by clicking the delete button. Because you are deleting this file, you will not have access to it later on. This will deny you the ability to re-study File A before the final test of File A words.
+					If you are instructed to <b>Delete</b>, you will <b>delete</b> the file by clicking the delete button. Because you are deleting this file, you <b>will not</b> have access to it later on. This will deny you the ability to re-study File A before the final test of File A words.
 				</p>
 				<img src="images/delete.png" class ="instruct_pic">
 				<button class="zen" type="button"
@@ -71,7 +72,7 @@
 <div class="slide" id="instructions5">
 			<div class="zen-slide-center">
 				<p class="block-text">
-				You will then study the words in File B an delete this File. Next you will receive the final tests for both files; first File B words and then File A words. However, if you were directed to Save File A, you will have the chance to re-study File A before the final test of words in File A. After each trial you will play tetris for a short period of time. Here is an overview of one entire trial. Press begin to start the first trial. </p>
+				You will then study the words in File B and delete this File. Next you will receive the final tests for both files; first File B words and then File A words. However, if you were directed to <b>Save</b> File A, you will have the chance to re-study File A before the final test of words in File A. You will go through eight trials of this sequence. After each trial you will play tetris for 1 minute. Here is an overview of one entire trial. Press begin to start the first trial. </p>
 				<img src="images/trainover.png" class ="instruct_pic" id="overview">
 				<button class="zen" type="button"
 				onclick="experiment.message('display_trial')">BEGIN</button>
@@ -120,6 +121,7 @@
 <!-- Distractor Slide -->
 <div class="slide" id="distractor">
 	<p id="directions"></p>
+<!-- 		<div id="seconds">20</div> -->
 		<div id ="textinput">
 			<textarea id="recall-digits" rows="7" cols="10"></textarea>
 			<div id="space-warn3" style="display:none; color:red">Press 'Enter' to separate numbers</div>
@@ -135,18 +137,21 @@
 
 <div class="slide" id="distractorintro">
 	<p class = "intro" id="intro2"></p>
+	<p class = "intro" id="time2"></p>
 	<button class="zen" type="button" id = "trycenter"
 	onclick="experiment.distractor()">START</button>
 </div>
 
 <div class="slide" id="recallintroA">
 	<p class = "intro" id="intro3"></p>
+	<p class = "intro" id="time3"></p>
 	<button class="zen" type="button" id = "trycenter"
 	onclick="experiment.recallA()">START</button>
 </div>
 
 <div class="slide" id="recallintroB">
 	<p class = "intro" id="intro4"></p>
+	<p class = "intro" id="time4"></p>
 	<button class="zen" type="button" id = "trycenter"
 	onclick="experiment.recallB()">START</button>
 </div>
@@ -156,7 +161,8 @@
 
 <!-- Recall Slides -->
 <div class="slide" id="recallB">
-	<p id="directions">Enter the words you remember from <b>File B</b>. Pressing 'Enter' or 'Return' between words.</p>
+	<p id="directions">Enter the words you remember from <b>File B</b>. Press 'Enter' or 'Return' between words.</p>
+<!-- 	<div id="seconds">20</div> -->
 		<div id ="textinput">
 			<textarea id="recall-text" rows="7" cols="8"></textarea>
 			<div id="space-warn1" style="display:none; color:red">Press 'Enter' to separate words</div>
@@ -164,7 +170,8 @@
 </div>
 
 <div class="slide" id="recallA">
-		<p id="directions">Enter the words you remember from <b>File A</b>. Pressing 'Enter' or 'Return' between words.</p>
+	<p id="directions">Enter the words you remember from <b>File A</b>. Press 'Enter' or 'Return' between words.</p>
+<!-- 	<div id="seconds">20</div> -->
 		<div id ="textinput">
 			<textarea id="recall-text2" rows="7" cols="8"></textarea>
 			<div id="space-warn2" style="display:none; color:red">Press 'Enter' to separate words</div>
@@ -173,7 +180,86 @@
 
 <div class ="slide" id="tetris">
 	<div class="game" style="width:250px; height:400px;"></div>
+<!-- 	<div id="seconds">60</div> -->
 </div>
+
+<div class="slide" id="debriefing">
+     <form id="demographics" onsubmit="experiment.submitcomments()">
+        <p><b>What is your age (in years)?</b></p>
+ 		<p>
+    	<textarea type="text" id="age" name="age" style="width: 5%; line-height: 1em;" value=""></textarea>
+  		</p>
+  		<p><b>What is your gender?</b></p>
+		<p>
+  			<select name="gender" id="gender" form="demographics">
+    		<option value="">Please choose an option</option>
+    		<option value="female">Female</option>
+    		<option value="male">Male</option>
+    		<option value="other">Other</option>
+    		<option value="declinestate">Prefer not to state</option>
+  	</select>
+  	<p><b>What is your native/first language (i.e., the language that was primarily spoken at home when you were a child)?</b></p>
+	<p>
+	  <textarea type="text" id="homelang" name="lg" style="width:40%" value=""></textarea>
+	</p>
+	<p><b>What is your race? </b></p>
+		<select name="race" id="race" form="demographics">
+	    <option value="amInd"> American Indian or Alaskan Native
+	    <br>
+	    <option value="asian"> Asian
+	    <br>
+	    <option value="natHaw"> Native Hawaiian or US Pacific Islander
+	    <br>
+	    <option value="black"> Black/African American
+	    <br>
+	    <option value="white"> White
+	    <br>
+	    <option value="other"> Other
+	    </select>
+	<div align="center">
+	<button type="button" id="debriefsubmit" onClick="experiment.submit_comments()">Submit</button>
+      </div>
+    </div>
+
+<!--  <div class="slide" id="demos">
+   <p>&nbsp; </p>
+   Finally, please answer these final questions about you:
+   <p>&nbsp; </p>
+   Your age: <input type="text" id ="age" step="0.01" name="fname1">
+   <p>&nbsp; </p>
+   Your gender
+   <div><input type="radio" name="sex" value = "m">&nbsp;Male</div>
+   <div><input type="radio" name="sex" value = "f">&nbsp;Female</div>
+   <p>&nbsp; </p>
+   What is your nationality?
+      <div><input type="radio" name="US" value = "us">&nbsp;US</div>
+      <div><input type="radio" name="US" value = "other">&nbsp;Other</div>
+   <p>&nbsp; </p>
+   What is your ethnicity?
+      <div><input type="radio" name="eth" value = "1">&nbsp;White, Non-Hispanic</div>
+      <div><input type="radio" name="eth" value = "2">&nbsp;Hispanic</div>
+      <div><input type="radio" name="eth" value = "3">&nbsp;African-American</div>
+      <div><input type="radio" name="eth" value = "4">&nbsp;Asian-Pacific (e.g., Japan, Korea, China, Thailand, etc.)</div>
+      <div><input type="radio" name="eth" value = "5">&nbsp;South Asian (e.g., India, Pakistan, Bangladesh, etc.)</div>
+       <div><input type="radio" name="eth" value = "6">&nbsp;Other</td></div>
+       <td>&nbsp;&nbsp;&nbsp;</td>
+       <td></td>
+     </tr>
+   </table>
+   <p></p>
+   What is your native language?
+   <div><input type="radio" name="lang" value = "1">&nbsp;English</div>
+   <div><input type="radio" name="lang" value = "0">&nbsp;Other</div>
+   <table align="left"><tr>
+   <td align="left">
+     <button type="button" id="nextbutton" onClick="experiment.submit_comments2()"> Next</button>
+   </td>
+       <tr><td align="left">
+       <div id="testMessage3"> </div>
+       </td></tr>
+
+  </table>
+  </div> -->
 
 <!-- The finish slide. -->
 <div class="slide" id="finished">

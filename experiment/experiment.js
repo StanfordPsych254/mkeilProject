@@ -111,9 +111,11 @@ var experiment = {
     if(instructionCount == 1){
       if(condition == 2){
           $('#eight').hide();
+          $('#eightpic').hide();
       }
       else{
           $('#two').hide();
+          $('#twopic').hide();
       }
     }
     showSlide("instructions" + instructionCount);
@@ -129,14 +131,17 @@ var experiment = {
       $('body').css('background-color', 'white');
       showSlide("distractorintro");
       $( "#intro2" ).text("Backwards Subtraction Test");
+      $( "#time2" ).text("(20 seconds)");
     }
     if(message == "display_recallA"){
       showSlide("recallintroA");
       $( "#intro3" ).text("Test of Recall for File A words");
+      $( "#time3" ).text("(20 seconds)");
     }
     if(message == "display_recallB"){
       showSlide("recallintroB");
       $( "#intro4" ).text("Test of Recall for File B words");
+      $( "#time4" ).text("(20 seconds)");
     }
   },
 
@@ -197,7 +202,6 @@ var experiment = {
       div.innerHTML = PDFA;
       $('#doc').css('background-color', 'white');
       $('body').css('background-color', 'gray');
-
       //go to saving screen
       setTimeout(function(){
         $('#doc').html("");
@@ -283,9 +287,11 @@ var experiment = {
   distractor: function() {
       $("#recall-digits").val("");
       showSlide("distractor");
+      // time = new Date().getTime();
+      // countdownCounter1 = setInterval(function(){experiment.CountdownTime(20,time,1)}, 1000);
       starter = Math.floor(Math.random() * 800) + 200; 
       experiment.start_number = starter;
-      $("#directions").text("Subtract 3 from " + starter +  " as many times as possible. Pressing 'Enter' or 'Return' between numbers.");
+      $("#directions").text("Subtract 3 from " + starter +  " as many times as possible. Press 'Enter' or 'Return' between numbers.");
       setTimeout(function(){
         var recallDigits = $("#recall-digits").val();
         experiment.recallDigs = recallDigits;
@@ -312,7 +318,9 @@ var experiment = {
   },
 
   recallB: function() {
-      showSlide("recallB"); 
+      showSlide("recallB");
+      // time = new Date().getTime();
+      // countdownCounter2 = setInterval(function(){experiment.CountdownTime(20,time,2)}, 1000);
       $("#recall-text").val("");
         setTimeout(function(){
           var recallText = $("#recall-text").val();
@@ -329,6 +337,8 @@ var experiment = {
 
   recallA: function() {
       showSlide("recallA");
+      // time = new Date().getTime();
+      // countdownCounter3 = setInterval(function(){experiment.CountdownTime(20,time,3)}, 1000);
       $("#recall-text2").val(""); 
         setTimeout(function(){
           var recallText = $("#recall-text2").val();
@@ -356,6 +366,8 @@ var experiment = {
 
   tetris: function() {
     showSlide("tetris");
+    // time = new Date().getTime();
+    // countdownCounter4 = setInterval(function(){experiment.CountdownTime(60,time,4)}, 1000);
     if(trialnum <2){
       $('.game').blockrain();
     }
@@ -365,7 +377,7 @@ var experiment = {
     }
     setTimeout(function(){
       if (experiment.trials == 0) {
-        experiment.end();
+        showSlide("debriefing");
         return
       }
       $('.game').blockrain('pause');
@@ -402,6 +414,30 @@ var experiment = {
       }, 15000);
     };
   },
+
+  submit_comments: function() {
+    data = {
+          age: document.getElementById("age").value, 
+          gender: document.getElementById("gender").value,
+          homelang: document.getElementById("homelang").value,
+          race: document.getElementById("race").value,
+             };
+    experiment.data.push(data);
+    experiment.end();
+  },
+  // CountdownTime: function(count,time,num) {
+  //   var countDown = count;
+  //   var currentTime = new Date().getTime();
+  //   var diff = currentTime - time;
+  //   var seconds = countDown - Math.floor(diff / 1000);
+  //   if (seconds >= 0) {
+  //     $("#seconds").text(seconds);
+  //     console.log(seconds);
+  //   } 
+  //   else {
+  //     clearInterval("CountdownCounter"+"num");
+  //   }
+  // },
 
   // The function that gets called when the sequence is finished.
   end: function() {
