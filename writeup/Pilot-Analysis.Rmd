@@ -30,17 +30,17 @@ In this study the authors conducted a 2x2 mixed-design ANOVA on the recall of Fi
 ###Procedure				
 > The experiment began with participants watching the experimenter create a folder on the desktop. The folder was named with the date (e.g., 5-4-2014), and participants were told that they would be able to use the folder during the experiment. Participants were then alerted to the flash drive connected to the computer and instructed to open it to view the files inside. The files were said to exist only on the flash drive, not on the computer.
 
-**Modification**: This folder will already exist online. For each trial, two files(A and B will appear). File A and B will pop-up based on timers. 
+**Modification**: This folder will already exist online. For each trial, two pdf files(A and B) will appear. File A and B will pop-up based on timers. 
 					
 > Participants were told that the experiment would consist of six trials, each involving the study and testing of the contents of two PDFs. For example, on the first trial, participants studied and were tested on the contents of Files 1A and 1B. They were told that they would always study File A first, but that before being tested on it, they would study and be tested on File B. Half of the trials were save trials, and the other half were no-save trials. Counterbalancing ensured that each file served equally often in the save and no-save conditions. On save trials, participants saved File A before studying and being tested on File B. On no-save trials, participants simply exited File A without saving before studying and being tested on File B. Participants were told that saving File A would ensure that they would be able to restudy it prior to test, which they were indeed allowed to do.
 					
 > On each trial, participants studied File A unaware of whether they would be instructed to save it. After 15 s of study, participants were told to either save or not save the file into the designated folder. If instructed to save the file, participants navigated to the “Save a copy” option on the file menu and then saved the file into their folder. If instructed to not save the file, participants simply exited the file by clicking the “X” on the top-right corner of the PDF.
 
-**Modification**: A pop-up will appear that will allow participants to save File A and they will see it remain on the website if they are in the save condition. Participants in the no-save condition will not be given a pop-up option, and instead see File A gone from the website after the initial studying period 
+**Modification**: A pop-up will appear that will allow participants to save File A and they will see it remain on the website if they are in the save condition. Participants in the no-save condition will also be given a pop-up option asking them to delete the file, and see File A gone from the website after the initial studying period 
 
 > Immediately following, participants were asked to open and study the corresponding File B for 15 s. After File B was closed, there was a short 20-s delay during which participants counted backwards by 3s from a random 3-digit number between 200 and 999.
 
-**Modification**: Instead of counting backwards by 3s, participants will solve a series of two digit subtraction problems for 20 seconds.
+**Modification**: Instead of counting backwards by 3s, participants write these numbers online, still starting from a random 3-digit number 
 
 > Participants were then given 20 s to recall out loud the words from File B.
 
@@ -56,13 +56,13 @@ In this study the authors conducted a 2x2 mixed-design ANOVA on the recall of Fi
 The data for each participant will go from wide format to tidy format. Each row will be a separate subject trial, and include the participant condition(2 or 8 word), save type condition(save vs. no-save), recall score for file A, and recall score for file B. 
 
 **Data Exclusion**
-Any subject’s data in which all trials are not completed will be removed from the data set.  Subject’s will be excluded if they perform too well(above 90% recall across trials), or improve dramatically over the course of the trials(increase of 40% or more). This may be a sign of cheating, such as writing the words down or taking a screenshot while studying. Data will also be excluded if none of the subtraction questions are correct in the distractor task, or if none of the recall words are correct for multiple conditions. These results would show evidence that the subject is not paying attention to the task and could skew results. 
+Any subject’s data in which all trials are not completed will be removed from the data set.  Subject’s will be excluded if they perform two standard deviations below or above mean recall B score. This may be a sign of cheating, such as writing the words down or taking a screenshot while studying. Data will also be excluded if subjects mean digit recall is below two standard deviations of the overall mean. These results would show evidence that the subject is not paying attention to the task and could skew results. Data from trials 1 and 2 will be excluded for each subject, following the original experiment's exclusion protocol. Finally, if a subject does not follow the correct save instructions for any trial their data will be throw out from the final analysis. 
 
 **Recall Performance for File A**
 We will run a pairwise t-test between save trials vs. non-save trials in word recall. This analysis will be done separately for two-word and eight-word conditions. 
 
 **Recall Performance for File B**
-2 x 2 Mixed Design ANOVA will be run on save vs. no save and two vs. eight word conditions with recall score as the dependent variable. We will run a pairwise t-test between save trials vs. non-save trials in word recall. This analysis will be done separately for two-word and eight-word conditions. 
+2 x 2 Mixed Design ANOVA will be run on save vs. no save and two vs. eight word conditions with recall score as the dependent variable. We will run this as an interaction model and expect to see a significant word condition by save condition interaction term. We will also run a pairwise t-test between save trials vs. non-save trials in word recall. This analysis will be done separately for two-word and eight-word conditions. 
 
 ###Differences from Original Study
 **Sample differences**
@@ -92,12 +92,12 @@ ci95 <- function(x) {sem(x) * 1.96}
 
 ####Import Data Through JSON File to Dataframe
 ```{r warning=F}
-path <- "~/Documents/Psych254/MturkV2/"
-files <- dir(paste0(path,"sandbox-results/"), 
+path <- "~/Documents/Psych254/MturkB/"
+files <- dir(paste0(path,"production-results/"), 
              pattern = "*.json")
 d.raw <- data.frame()
 for (f in files) {
-  jf <- paste0(path, "sandbox-results/",f)
+  jf <- paste0(path, "production-results/",f)
   jd <- fromJSON(paste(readLines(jf), collapse=""))
   jd$answers$data[9]
   for(i in 1:8){
@@ -118,6 +118,7 @@ for (f in files) {
                    gender = jd$answers$data[[9]]$gender,
                    homelang = jd$answers$data[[9]]$homelang,
                    race = jd$answers$data[[9]]$race
+                   # comments = jd$answers$data[[9]]$comments
                    )
     d.raw <- bind_rows(d.raw, id)
   }
@@ -126,6 +127,8 @@ for (f in files) {
 
 
 ####Score Digits
+
+This code calculates the number of times the subject correctly subtracted by 3 in the distractor task.
 ```{r}
 d1 <- d.raw
 entered_digits = strsplit(d1$digits, "[\n]")
@@ -146,6 +149,8 @@ for(i in seq(from=1, to=nrow(d1), by=1)){
 ```
 
 ####Score FileRecall
+
+This piece of code calculates the number of correct words recalled from File A and File B for each trial. The user input is compared to the actual list of words in the file, and for each match the score increases by 1. The code also gives participants credit for accidentally recalling the singular version of a plural word by translating it from singular to plural before scoring (examples: eggs, bikes, planes, and jeans). 
 ```{r}
 #FileA
 FileA_split = strsplit(d1$FileA, "[,]")
@@ -155,6 +160,7 @@ for(i in seq(from=1, to=nrow(d1), by=1)){
   FileA_split[[i]]
   FileAScore = 0
   for(word in FileA_recall_split[[i]]){
+    #adjustment for plural words
     if(word == "egg"){
       word = paste(word,"s",sep = "")
     }
@@ -174,6 +180,7 @@ for(i in seq(from=1, to=nrow(d1), by=1)){
   FileB_recall_split = strsplit(d1$B_Recall, "[\n]")
   FileBScore = 0
   for(word in FileB_recall_split[[i]]){
+    #adjustment for plural words
     if(word == "bike" | word == "plane" | word == "jean"){
       word = paste(word,"s",sep = "")
     }
@@ -199,38 +206,45 @@ d1 <- d1 %>% filter(trial_num != 1, trial_num != 2)
 Remove anyone who did not follow save instructions correctly
 ```{r}
 #rename save choice from delete
-for(i in seq(from=1, to=nrow(d1), by=1)){
-  if(d1$save_condition[i] == "nosave"){
-    d1$save_condition[i] <- "delete"
-  }
-}
+str(d1)
+d1 <- d1 %>% mutate(save_condition = ifelse(save_condition == "nosave","delete","save"))
 
 #remove wrong followers
-for(i in seq(from=1, to=nrow(d1), by=1)){
-  if(d1$save_condition[i] != d1$save_choice[i]){
-    print(i)
-    deleted_worker = d1$workerId[i]
-    d1<-subset(d1, workerId != deleted_worker)
-  }
-}
-
+included_workers <- d1 %>%
+group_by(workerId)  %>%
+summarise(followed_instructions = all(save_condition == save_choice)) %>%
+filter(followed_instructions)
+d1 <- d1 %>% filter(workerId %in% included_workers$workerId)
 ```
 
 Remove those 2 standard deviations below or above in word recall score and digit recall score.
 ```{r}
 d1_means <- d1 %>%group_by(workerId,word_condition) %>% summarise(meanB = mean(BScore), meanA =mean(AScore), meanDigit = mean(DigitScore), meanTime = mean(time))
-d1_means
+
+#filter by recallScore
+sb_meanB = sd(d1_means$meanB)
+top_cutoff = mean(d1_means$meanB) + (2*sb_meanB)
+bottom_cutoff = mean(d1_means$meanB) - (2*sb_meanB)
+
+d1_keep <- filter(d1_means, meanB < top_cutoff & meanB > bottom_cutoff)
+
+#filter by digitScore
+sb_digitScore = sd(d1_means$meanDigit)
+digit_top_cutoff = mean(d1_means$meanDigit) + (2*sb_digitScore)
+digit_bottom_cutoff = mean(d1_means$meanDigit) - (2*sb_digitScore)
+
+d1_keep <- filter(d1_means, meanDigit < digit_top_cutoff & meanDigit > digit_bottom_cutoff)
 ```
 
 ####Plots of Data
 Histogram of File B Recall Scores
 ```{r}
-qplot(meanB, data = d1_means, geom ="histogram",binwidth = .5)
+qplot(meanB, data = d1_means, geom ="histogram",binwidth = .1)
 ```
 
 Histogram of File A Recall Scores
 ```{r}
-qplot(meanA, data = d1_means, geom ="histogram", binwidth = .5)
+qplot(meanA, data = d1_means, geom ="histogram", binwidth = .1)
 ```
 
 Histogram of Time
@@ -243,6 +257,7 @@ Histogram of Digit Recall
 qplot(meanDigit, data = d1_means, geom ="histogram", binwidth = .5)
 ```
 
+<div style="width:600px; height=400px"; float = left">
 Plot By Save vs. No-Save condition
 ```{r}
 d1_bar <- d1 %>%group_by(workerId,word_condition,save_condition) %>% summarise(meanB = mean(BScore), meanA =mean(AScore), meanDigit = mean(DigitScore), meanTime = mean(time), seB = sem(BScore))
@@ -258,34 +273,41 @@ ggplot(d2_bar,aes(x = word_condition, y = meanBacross,fill=save_condition))+
                 width=.2,
                 position=position_dodge(.9)) + theme_bw() + ylab("Proportion of Words Correctly Recalled") + xlab("Information in File A")
 ```
+</div>
+<div style="width:600px; height=400px; float = left">
+![alt text](figures/OriginalResult.png)
+</div>
+
 
 ###Confirmatory Analysis
 
 ####Recall Performance for File A
 ```{r}
 #t-test 8-word condition
-# ttestA8 = t.test(meanA[word_condition == 8]~save_condition[word_condition == 8],data = d1_bar)
-# ttestA8
+ttestA8 = t.test(meanA ~ save_condition, data = d1_bar %>% filter(word_condition == 8))
+ttestA8
 
 #t-test 2-word condition
-# ttestA2 = t.test(meanA[word_condition == 2]~save_condition[word_condition == 2],data = d1_bar)
-# ttestA2
+ttestA2 = t.test(meanA ~ save_condition, data = d1_bar %>% filter(word_condition == 2))
+ttestA2
 ```
 
 ####Recall Performance for File B
 ```{r}
-#Mixed Design ANOVA
+#t-test 8-word condition: Key Result
+ttestB8 = t.test(meanB ~ save_condition, data = d1_bar %>% filter(word_condition == 8))
+ttestB8
+
+#t-test 2-word condition
+ttestB2 = t.test(meanB ~ save_condition, data = d1_bar %>% filter(word_condition == 2))
+ttestB2
+```
+
+####Mixed Design ANOVA for File B Performance
+```{r}
 d1$word_condition = as.factor(d1$word_condition)
 aov_mixed <- aov(BScore ~ save_condition*word_condition + Error(workerId/save_condition), data=d1)
 summary(aov_mixed)
-
-#t-test 8-word condition
-# ttestB8 = t.test(meanB[word_condition == 8]~save_condition[word_condition == 8],data = d1_bar)
-# ttestB8
-
-#t-test 2-word condition
-# ttestB2 = t.test(meanB[word_condition == 2]~save_condition[word_condition == 2],data = d1_bar)
-# ttestB2
 ```
 
 ###Exploratory Analyses
@@ -298,14 +320,14 @@ summary(aov_mixed)
 Plot by Trial Number
 ```{r}
 ggplot(d1,aes(trial_num,BScore))+
-  geom_point(aes(colour = save_condition))
+  geom_jitter(aes(colour = save_condition))
 ```
 
 ####The Effect of File Number on Performance
 Plot By File Number
 ```{r}
 ggplot(d1,aes(FileB,BScore))+
-  geom_point(aes(colour = save_condition))
+  geom_jitter(aes(colour = save_condition))
 ```
 
 ```{r}
@@ -316,15 +338,15 @@ ggplot(d1,aes(FileB,BScore))+
 Plot By Digit Recall Score
 ```{r}
 ggplot(d1,aes(DigitScore,BScore))+
-  geom_point(aes(colour = save_condition))
+  geom_jitter(aes(colour = save_condition))
 ```
 
 
 ####The Effect of File A Recall Score on File B Recall Scores for 8-word No-Save condition
 ```{r}
 # d1
-# ggplot(d1,aes(AScore[word_condition==8],BScore[word_condition==8]))+
-#   geom_point(aes(colour = save_condition[word_condition==8]))
+#  ggplot(d1,aes(AScore[word_condition==8],BScore[word_condition==8]))+
+#    geom_point(aes(colour = save_condition[word_condition==8]))
 ```
 
 ##Discussion
